@@ -1,0 +1,43 @@
+# action name
+name: 'go-cross-build'
+
+# action author
+author: 'Uday Hiwarale <thatisuday@gmail.com>'
+
+# action description
+description: 'Generates cross-platform executable files from a Go module.'
+
+# action input values
+inputs:
+  platforms:
+    description: 'Comma-separated list of "<kernel>/<arch>" combinations.'
+    default: 'linux/386,linux/amd64'
+    required: false
+  package:
+    description: 'Package (directory) in the module to build. By default, builds the module directory.'
+    default: ''
+    required: false
+  compress:
+    description: 'Compress each build file inside a ".tar.gz" archive.'
+    default: 'false'
+    required: false
+  name:
+    description: 'Binary executable filename and filenames prefix for the build files.'
+    default: 'program'
+    required: false
+  dest:
+    description: 'Destination directory inside workspace to output build-artifacts.'
+    default: 'build'
+    required: false
+
+# action runner (golang:latest image)
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  env:
+    GO111MODULE: 'on'
+
+# branding
+branding:
+  icon: terminal
+  color: green
