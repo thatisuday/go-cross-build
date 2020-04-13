@@ -163,6 +163,9 @@ func build(packageName, destDir string, platform map[string]string, compress boo
 /*************************************/
 
 func main() {
+	
+	// print environment variables
+	fmt.Println(os.Environ())
 
 	// get input variables from action
 	inputPlatforms := os.Getenv("INPUT_PLATFORMS")
