@@ -29,6 +29,10 @@ inputs:
     description: 'Destination directory inside workspace to output build-artifacts.'
     default: 'build'
     required: false
+  ldflags:
+    description: 'Flags to pass to the Go linker.'
+    default: ''
+    required: false
 
 # action runner (golang:latest image)
 runs:

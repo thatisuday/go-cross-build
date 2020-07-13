@@ -39,7 +39,7 @@ func copyFile(src, dest string) {
 /*************************************/
 
 // build the package for a platform
-func build(packageName, destDir string, platform map[string]string, compress bool) {
+func build(packageName, destDir string, platform map[string]string, ldflags string, compress bool) {
 
 	// platform config
 	platformKernel := platform["kernel"]
@@ -79,7 +79,7 @@ func build(packageName, destDir string, platform map[string]string, compress boo
 	/*------------*/
 
 	// command-line options for the `go build` command
-	buildOptions := []string{"build", "-buildmode", "exe", "-o", buildFilePath, packagePath}
+	buildOptions := []string{"build", "-buildmode", "exe", "-ldflags", ldflags, "-o", buildFilePath, packagePath}
 
 	// generate `go build` command
 	buildCmd := exec.Command("go", buildOptions...)
@@ -169,6 +169,7 @@ func main() {
 	inputPackage := os.Getenv("INPUT_PACKAGE")
 	inputCompress := os.Getenv("INPUT_COMPRESS")
 	inputDest := os.Getenv("INPUT_DEST")
+	inputLdflags := os.Getenv("INPUT_LDFLAGS")
 
 	// package name to build
 	packageName := strings.ReplaceAll(inputPackage, " ", "")
@@ -198,7 +199,7 @@ func main() {
 		}
 
 		// execute `build` function
-		build(packageName, destDir, platformMap, compress)
+		build(packageName, destDir, platformMap, inputLdflags, compress)
 	}
 
 	/*------------*/
