@@ -33,6 +33,10 @@ inputs:
     description: 'Flags to pass to the Go linker.'
     default: ''
     required: false
+  cgo:
+    description: "Enable or Disable CGO"
+    default: ''
+    required: false
 
 # action runner (golang:latest image)
 runs:

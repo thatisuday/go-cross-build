@@ -33,6 +33,7 @@ jobs:
             name: 'program'
             compress: 'true'
             dest: 'dist'
+            cgo: 'false'
 ```
 
 #### ☉ option: **platforms**
@@ -49,6 +50,9 @@ The `name` option sets a prefix for the build filenames. In compression mode, th
 
 #### ☉ option: **dest**
 The `dest` option sets the output directory for the build files. This should be a relative directory without leading `./`.
+
+#### ☉ option: **cgo**
+The `cgo` option sets if you want go to use cgo when building the binary. The default behavior of golang is to build with [cgo on native systems](https://pkg.go.dev/cmd/cgo#:~:text=The%20cgo%20tool%20is%20enabled,to%200%20to%20disable%20it). setting this option to `'false'` will disable cgo when building the binaries, setting it to `'true'` will enable CGO when building the binaries.
 
 
 ## Build Artifacts
