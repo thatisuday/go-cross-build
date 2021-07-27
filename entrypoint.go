@@ -39,7 +39,7 @@ func copyFile(src, dest string) {
 /*************************************/
 
 // build the package for a platform
-func build(packageName, destDir string, platform map[string]string, ldflags string, compress bool, cgo bool) {
+func build(packageName, destDir string, platform map[string]string, ldflags string, compress bool, cgo string) {
 
 	// platform config
 	platformKernel := platform["kernel"]
@@ -84,18 +84,21 @@ func build(packageName, destDir string, platform map[string]string, ldflags stri
 	// generate `go build` command
 	buildCmd := exec.Command("go", buildOptions...)
 
-	cgoValue := 0
-
-	if cgo {
-		cgoValue = 1
-	}
-
 	// set environment variables
-	buildCmd.Env = append(os.Environ(), []string{
+	buildStrings := []string{
 		fmt.Sprintf("GOOS=%s", platformKernel),
 		fmt.Sprintf("GOARCH=%s", platformArch),
-		fmt.Sprintf("CGO_ENABLED=%d", cgoValue),
-	}...)
+	}
+
+	switch strings.ToLower(cgo) {
+	case "true":
+		buildStrings = append(buildStrings, fmt.Sprintf("CGO_ENABLED=1"))
+	case "false":
+		buildStrings = append(buildStrings, fmt.Sprintf("CGO_ENABLED=0"))
+	default:
+	}
+
+	buildCmd.Env = append(os.Environ(), buildStrings...)
 
 	// execute `go build` command
 	fmt.Println("Creating a build using :", buildCmd.String())
@@ -194,10 +197,7 @@ func main() {
 		compress = true
 	}
 
-	cgo := false
-	if strings.ToLower(inputCGO) == "true" {
-		compress = true
-	}
+	cgo := inputCGO
 
 	// for each platform, execute `build` function
 	for _, platform := range platforms {
