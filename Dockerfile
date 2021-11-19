@@ -1,5 +1,5 @@
 # Debian GNU/Linux 11 (1.17.13-bullseye)
-FROM 1.17.3-bullseye
+FROM golang:1.17.3-bullseye
 
 # copy entrypoint file
 COPY entrypoint.go /usr/bin/entrypoint.go
